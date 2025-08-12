@@ -95,7 +95,7 @@ export default function KaillaniPortfolio() {
       description:
         "Site portfólio para desenvolvedor, com foco em apresentação de projetos, stack e identidade profissional.",
       technologies: ["HTML", "CSS", "Bootstrap", "JavaScript"],
-      link: "https://portfolio-dev.com",
+      link: "https://portifolio-five-kappa-96.vercel.app/",
     },
     {
       image: "/PROJETO (6).svg?height=200&width=300",
