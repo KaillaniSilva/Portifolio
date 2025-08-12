@@ -225,6 +225,11 @@ export default function KaillaniPortfolio() {
     setSelectedProject(selectedProject === index ? null : index);
   };
 
+  const handleProjectLinkClick = (e: React.MouseEvent, link: string) => {
+    e.stopPropagation(); // Previne que o clique propague para o container
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden text-white font-poppins">
       {/* Header */}
@@ -491,10 +496,7 @@ export default function KaillaniPortfolio() {
         </motion.p>
 
         <div className="flex justify-center">
-          <motion.div 
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
+          <div 
             key={visibleProjects}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
           >
@@ -533,17 +535,15 @@ export default function KaillaniPortfolio() {
                          ? 'opacity-70' 
                          : 'opacity-0 group-hover:opacity-70 group-focus:opacity-70 group-active:opacity-70'
                      }`}>
-                       <Link 
-                         href={project.link} 
-                         target="_blank" 
-                         rel="noopener noreferrer"
-                         className="bg-white hover:bg-white text-gray-800 px-4 py-2 rounded-full flex items-center gap-2 transition-colors duration-200 shadow-lg"
+                       <button 
+                         onClick={(e) => handleProjectLinkClick(e, project.link)}
+                         className="bg-white hover:bg-white text-gray-800 px-4 py-2 rounded-full flex items-center gap-2 transition-colors duration-200 shadow-lg cursor-pointer"
                        >
                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                            <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
                          </svg>
                          <span className="font-medium">Abrir site</span>
-                       </Link>
+                       </button>
                      </div>
                    </div>
 
@@ -581,25 +581,18 @@ export default function KaillaniPortfolio() {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {visibleProjects < projects.length && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="font-quicksand text-center mt-12"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+          <div className="font-quicksand text-center mt-12">
+            <button
               onClick={handleShowMore}
-              className="bg-white hover:bg-[#7A1BE1] text-[#3000B4] rounded-full px-8 py-2 md:px-12 md:py-3 shadow-lg"
+              className="bg-white hover:bg-[#7A1BE1] text-[#3000B4] rounded-full px-8 py-2 md:px-12 md:py-3 shadow-lg transition-all duration-200 active:scale-95"
             >
               Ver mais
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
         )}
       </motion.section>
 
