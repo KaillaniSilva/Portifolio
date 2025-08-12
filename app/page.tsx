@@ -216,18 +216,18 @@ export default function KaillaniPortfolio() {
   }, []);
 
   const handleShowMore = () => {
-  setVisibleProjects((prev) =>
-    Math.min(prev + 3, projects.length) // soma 3 mas nunca ultrapassa o total
-  );
-};
-
-  const handleProjectClick = (index: number) => {
-    setSelectedProject(selectedProject === index ? null : index);
+    const newCount = Math.min(visibleProjects + 3, projects.length);
+    setVisibleProjects(newCount);
   };
 
-  const handleProjectLinkClick = (e: React.MouseEvent, link: string) => {
-    e.stopPropagation(); // Previne que o clique propague para o container
-    window.open(link, '_blank', 'noopener,noreferrer');
+  const handleProjectClick = (index: number) => {
+    if (selectedProject === index) {
+      // Se já está selecionado, abre o link
+      window.open(projects[index].link, '_blank', 'noopener,noreferrer');
+    } else {
+      // Se não está selecionado, seleciona
+      setSelectedProject(index);
+    }
   };
 
   return (
@@ -501,21 +501,9 @@ export default function KaillaniPortfolio() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
           >
             {projects.slice(0, visibleProjects).map((project, index) => (
-              <motion.div
+              <div
                 key={`${project.title}-${index}`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: index * 0.1,
-                  ease: "easeOut" 
-                }}
-                whileHover={{ 
-                  scale: 1.05,
-                  y: -10,
-                  transition: { duration: 0.3 }
-                }}
-                className="bg-roxo-claro border-none items-center justify-center rounded-[6vw] md:rounded-[2vw] w-full max-w-[320px] md:max-w-[380px] p-4 cursor-pointer"
+                className="bg-roxo-claro border-none items-center justify-center rounded-[6vw] md:rounded-[2vw] w-full max-w-[320px] md:max-w-[380px] p-4 cursor-pointer hover:scale-105 hover:-translate-y-2 transition-transform duration-300"
               >
                
                    <div 
@@ -536,7 +524,10 @@ export default function KaillaniPortfolio() {
                          : 'opacity-0 group-hover:opacity-70 group-focus:opacity-70 group-active:opacity-70'
                      }`}>
                        <button 
-                         onClick={(e) => handleProjectLinkClick(e, project.link)}
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           window.open(project.link, '_blank', 'noopener,noreferrer');
+                         }}
                          className="bg-white hover:bg-white text-gray-800 px-4 py-2 rounded-full flex items-center gap-2 transition-colors duration-200 shadow-lg cursor-pointer"
                        >
                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -579,7 +570,7 @@ export default function KaillaniPortfolio() {
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -588,7 +579,7 @@ export default function KaillaniPortfolio() {
           <div className="font-quicksand text-center mt-12">
             <button
               onClick={handleShowMore}
-              className="bg-white hover:bg-[#7A1BE1] text-[#3000B4] rounded-full px-8 py-2 md:px-12 md:py-3 shadow-lg transition-all duration-200 active:scale-95"
+              className="bg-white hover:bg-[#7A1BE1] text-[#3000B4] rounded-full px-8 py-2 md:px-12 md:py-3 shadow-lg"
             >
               Ver mais
             </button>
