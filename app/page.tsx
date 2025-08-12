@@ -196,7 +196,7 @@ export default function KaillaniPortfolio() {
   ];
   const [visibleProjects, setVisibleProjects] = useState(6);
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+
 
   // Handle responsive behavior on client side only
   React.useEffect(() => {
@@ -221,13 +221,8 @@ export default function KaillaniPortfolio() {
   };
 
   const handleProjectClick = (index: number) => {
-    if (selectedProject === index) {
-      // Se já está selecionado, abre o link
-      window.open(projects[index].link, '_blank', 'noopener,noreferrer');
-    } else {
-      // Se não está selecionado, seleciona
-      setSelectedProject(index);
-    }
+    // Abre o link diretamente em qualquer dispositivo
+    window.open(projects[index].link, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -503,40 +498,17 @@ export default function KaillaniPortfolio() {
             {projects.slice(0, visibleProjects).map((project, index) => (
               <div
                 key={`${project.title}-${index}`}
-                className="bg-roxo-claro border-none items-center justify-center rounded-[6vw] md:rounded-[2vw] w-full max-w-[320px] md:max-w-[380px] p-4 cursor-pointer hover:scale-105 hover:-translate-y-2 transition-transform duration-300"
+                onClick={() => handleProjectClick(index)}
+                className="bg-roxo-claro border-none items-center justify-center rounded-[6vw] md:rounded-[2vw] w-full max-w-[320px] md:max-w-[380px] p-4 cursor-pointer md:hover:scale-105 md:hover:-translate-y-2 transition-transform duration-300"
               >
                
-                   <div 
-                     className="relative group cursor-pointer"
-                     onClick={() => handleProjectClick(index)}
-                   >
-                     <Image
-                       src={project.image || "/placeholder.svg"}
-                       alt={project.title}
-                       width={250}
-                       height={150}
-                       className="object-cover w-full rounded-lg mb-4"
-                     />
-                     {/* Overlay com botão "Abrir site" */}
-                     <div className={`absolute inset-0 bg-black bg-opacity-70 lg:rounded-[2.3vw] sm:rounded-[4vw] rounded-[8.5vw] transition-opacity duration-300 flex items-center justify-center ${
-                       selectedProject === index 
-                         ? 'opacity-70' 
-                         : 'opacity-0 group-hover:opacity-70 group-focus:opacity-70 group-active:opacity-70'
-                     }`}>
-                       <button 
-                         onClick={(e) => {
-                           e.stopPropagation();
-                           window.open(project.link, '_blank', 'noopener,noreferrer');
-                         }}
-                         className="bg-white hover:bg-white text-gray-800 px-4 py-2 rounded-full flex items-center gap-2 transition-colors duration-200 shadow-lg cursor-pointer"
-                       >
-                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                           <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
-                         </svg>
-                         <span className="font-medium">Abrir site</span>
-                       </button>
-                     </div>
-                   </div>
+                   <Image
+                     src={project.image || "/placeholder.svg"}
+                     alt={project.title}
+                     width={250}
+                     height={150}
+                     className="object-cover w-full rounded-lg mb-4"
+                   />
 
                  <div className="space-y-3">
                    <h3 className="font-quicksand xl:text-[1.5vw] text-lg font-semibold text-center mb-5">
@@ -544,6 +516,9 @@ export default function KaillaniPortfolio() {
                    </h3>
                   <p className="text-gray-300 text-xs xl:text-[1vw] text-center mb-7 leading-relaxed">
                     {project.description}
+                  </p>
+                  <p className="text-gray-400 text-xs xl:text-[0.8vw] text-center mb-4 italic md:hidden">
+                    clique para ver mais
                   </p>
                   <div className="flex flex-wrap justify-center gap-1 mt-4 mb-5">
                     {project.technologies.map((tech, techIndex) => (
@@ -928,3 +903,4 @@ export default function KaillaniPortfolio() {
     </div>
   );
 }
+
