@@ -5,6 +5,9 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Portfólio Kaillani',
   description: 'Portfólio de WebDesigner e Designer UX/UI',
+  icons: {
+    icon: "/logo4.png", 
+  },
 }
 
 export default function RootLayout({
@@ -23,4 +26,6 @@ export default function RootLayout({
     </html>
   )
 }
+
+
 
